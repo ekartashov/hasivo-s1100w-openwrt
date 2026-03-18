@@ -4,7 +4,7 @@
 
 ## Why this switch?
 
-The **Hasivo S1100W-8XGT-SE** is one of the cheapest **managed 8-port 10GbE** switches that supports **OpenWrt** you can get.
+The **Hasivo S1100W-8XGT-SE** is, at the time of writing, one of the **_only cheap_ managed 8-port 10GbE** switches that supports **OpenWrt**.
 
 By replacing its stock closed source firmware, one basically supercharges this switch with little-to-no investments — SSH, VLANs, firewall, LuCI web UI, Ansible-ready, on a well-known, actively maintained OS.
 The RTL9303 SoC has upstream OpenWrt support ([PR #17137](https://github.com/openwrt/openwrt/pull/17137)).
@@ -22,12 +22,12 @@ For that, you will need **serial console** access (RS232 via the unpopulated RJ4
 
 #### Hardware:
 
+> [!WARNING]
+> Do **not** use a plain USB-to-TTL adapter — this board uses a **3PEAK3232 RS-232 transceiver** (RS-232 voltage levels).
+> Your adapter must include a voltage-shifting IC (e.g. MAX202) to avoid damaging your hardware.
+
 - USB-to-RS232 adapter _(CH340T-based works well)_
   
-  > [!WARNING]
-  > Do **not** use a plain USB-to-TTL adapter — this board uses a **3PEAK3232 RS-232 transceiver** (RS-232 voltage levels).
-  > Your adapter must include a voltage-shifting IC (e.g. MAX202) to avoid damaging your hardware.
-
 - **One of** the following for the console connection (see [Part 1]() for details):
   - _Solder_ through-hole **RJ45 socket**, or 
   - _Solder_ through-hole **Header pins**, or 
