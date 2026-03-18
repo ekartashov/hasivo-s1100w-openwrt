@@ -352,7 +352,7 @@ If you want to poke around the vendor OS before flashing:
 
 **TFTP shows `T T T T T T` (timeout loop)**
 
-Three things to check: host firewall blocking ephemeral UDP ports (`sudo nft flush ruleset`), the `.bin` file not readable by the TFTP server process, or your workstation's wired interface has a `/32` mask instead of `/24`.
+Two things to check: host firewall blocking ephemeral UDP ports (`sudo nft flush ruleset`), the `.bin` file not readable by the TFTP server process.
 
 **Can't SSH/ping the switch after TFTP boot**
 
