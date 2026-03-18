@@ -4,33 +4,45 @@
 
 ## Why this switch?
 
-The Hasivo S1100W-8XGT-SE is one of the cheapest 8-port 10GbE switches you can get. Stock firmware is a closed Hasivo/Realtek blob — community reports mention firmware bugs, security issues, and difficulty getting updates from the vendor. Flash OpenWrt on it and you get a proper managed switch — SSH, VLANs, firewall, LuCI web UI, Ansible-ready — running on a well-known, actively maintained OS. The RTL9303 SoC has upstream OpenWrt support ([PR #17137](https://github.com/openwrt/openwrt/pull/17137)).
+The **Hasivo S1100W-8XGT-SE** is one of the cheapest **managed 8-port 10GbE** switches that supports **OpenWrt** you can get.
+
+By replacing its stock closed source firmware, one basically supercharges this switch with little-to-no investments — SSH, VLANs, firewall, LuCI web UI, Ansible-ready, on a well-known, actively maintained OS.
+The RTL9303 SoC has upstream OpenWrt support ([PR #17137](https://github.com/openwrt/openwrt/pull/17137)).
 
 ## Overview
 
 The install is two-phase:
 
-1. **TFTP boot** the initramfs image into RAM via U-Boot (nothing touches flash)
+1. **TFTP boot** the OpenWrt initramfs image into RAM via U-Boot _(stock firmware is intact)_
 2. **sysupgrade** from within that live system to permanently write OpenWrt to flash
 
-You need serial console access (RS232 via the unpopulated RJ45 pads on the PCB — see Part 1 for options) and a direct Ethernet link to the switch. The whole process takes about 15 minutes once the hardware is ready.
+For that, you will need **serial console** access (RS232 via the unpopulated RJ45 pads on the PCB, see [Part 1]()) and a **direct Ethernet link** to the switch.
 
 ## Prerequisites
 
-**Hardware:**
+#### Hardware:
 
-- USB-to-RS232 adapter (CH340T-based works well — **not** USB-to-TTL, this board has a PEAK3232 RS-232 transceiver)
-- **One of** the following for the console connection (see Part 1 for details):
-  - Through-hole RJ45 socket + soldering iron (permanent, clean)
-  - Header pins + soldering iron (permanent, but mutually exclusive with the RJ45 socket — it covers the header pin holes)
-  - Bare wires inserted into the through-holes + tape (temporary, no soldering needed — fine for a one-time flash)
-- Ethernet cable (laptop → port 1 on the switch)
+- USB-to-RS232 adapter _(CH340T-based works well)_
+  
+  > [!WARNING]
+  > Do **not** use a plain USB-to-TTL adapter — this board uses a **3PEAK3232 RS-232 transceiver** (RS-232 voltage levels).
+  > Your adapter must include a voltage-shifting IC (e.g. MAX202) to avoid damaging your hardware.
 
-**Software (on your Linux workstation):**
+- **One of** the following for the console connection (see [Part 1]() for details):
+  - _Solder_ through-hole **RJ45 socket**, or 
+  - _Solder_ through-hole **Header pins**, or 
+  - **Bare wires** inserted into the through-holes + some tape _(for one-off upload)_
 
-- `minicom` (or any serial terminal)
+- **Twisted pair cable** matching with selectied connection method _(USB-to-RS232 -> Switch)_
+
+- **Ethernet cable** _(Personal Computer -> Switch LAN Port)_
+
+
+#### Software:
+
+- `minicom` (or any other serial terminal)
 - `podman` or `docker` (for the TFTP server — no host packages needed), **or** `tftpd-hpa` if you prefer
-- Two firmware images from the [OpenWrt Firmware Selector](https://firmware-selector.openwrt.org) (search `hasivo`):
+- Two **firmware images** from the [OpenWrt Firmware Selector](https://firmware-selector.openwrt.org) (search `hasivo`):
   - `openwrt-*-initramfs-kernel.bin` — the TFTP boot image (runs in RAM)
   - `openwrt-*-squashfs-sysupgrade.bin` — the permanent flash image
 
@@ -38,27 +50,33 @@ You need serial console access (RS232 via the unpopulated RJ45 pads on the PCB �
 
 ## Part 1 — Serial Console Hardware
 
-The S1100W-8XGT-SE has a **3PEAK 3232** (PEAK3232) RS-232 transceiver IC and through-hole pads for an RJ45 console port — but the connector is **not populated from the factory**.
+The S1100W-8XGT-SE has a _**3PEAK 3232**_ RS-232 transceiver IC and through-hole pads for an RJ45 console port — but the connector is **not populated from the factory**.
 
 <p float="left">
   <img src="images/switch-insides.png" alt="Switch internals" width="49%" />
   <img src="images/switch-insides-zoom.png" alt="Switch internals zoom" width="49%" />
 </p>
 
-
-<img src="images/pcb-contaact-pads.png" alt="Through-hole RJ45 socket" width="480"/>
+<p align="center">
+  <img src="images/pcb-contaact-pads.png" alt="Through-hole RJ45 socket" width="480" />
+</p>
 
 You have three options for connecting to these pads:
 
-### Option A: Solder an RJ45 socket (permanent, recommended if you want a console port long-term)
+### Option A: Solder an RJ45 socket (best)
 
-Standard through-hole RJ45 socket (AliExpress, pennies):
+> [!NOTE]
+> Note that the RJ45 socket **covers the adjacent header pin holes**, so this is mutually exclusive with _Option B_.
+
+This is the best option because you add a real console port to the switch.
+
+Standard through-hole RJ45 socket on AliExpress:
 
 <p align="center">
   <img src="images/rj45-socket-article.png" alt="Through-hole RJ45 socket" width="480"/>
 </p>
 
-Solder it into the through-holes — the pads are large, straightforward job. Note that the RJ45 socket **covers the adjacent header pin holes**, so this is mutually exclusive with Option B.
+Solder it into the through-holes. 
 
 After soldering:
 
@@ -66,24 +84,29 @@ After soldering:
   <img src="images/final-pcb.jpg" alt="PCB with RJ45 console connector soldered in" width="600"/>
 </p>
 
-The metal enclosure has a cutout in the right position, but the **front label sticker covers it**. Score along the port outline from the inside with a blade and peel it away.
+The metal enclosure **has already a cutout in the right position**, but the front label sticker covers it.
+Score along the port outline from the inside and finish corners from outside with a blade and peel it away.
 
 
 <p align="center">
   <img src="images/final-switch.jpg" alt="Assembled switch with console port exposed" width="600"/>
 </p>
 
-### Option B: Solder header pins (permanent, smaller footprint)
+### Option B: Solder header pins (internal)
 
-There are separate through-holes next to the RJ45 landing pads that can take standard 2.54mm header pins. These are more compact if you don't want a full RJ45 jack sticking out, but as noted above — the RJ45 socket physically covers these holes, so pick one or the other.
+> [!NOTE]
+> Note that the headers **obstruct the body of the RJ45 body**, so this is mutually exclusive with _Option A_.
 
-### Option C: Bare wires + tape (temporary, no soldering)
+There are separate through-holes next to the RJ45 landing pads that can take standard 2.54mm header pins.
+These are more compact if you don't want a full RJ45 jack sticking out and want easy internal access, but as noted above — the RJ45 socket physically covers these holes, so pick one or the other.
+
+### Option C: Bare wires + tape (temporary)
 
 If you just need console access for the initial flash and don't plan to keep a permanent console port, strip three wires from a patch cable, insert them into the correct through-holes, and hold them in place with tape. The worst that can happen is a wire slips out mid-session — just reseat and retry. Good enough for a one-time job.
 
-### PEAK3232 IC pinout
+### 3PEAK 3232 IC pinout
 
-The three pins you care about on the PEAK3232 IC connect directly to the RJ45 through-hole pads:
+The three pins you care about on the 3PEAK 3232 IC connect directly to the RJ45 through-hole pads:
 
 <!-- TODO: add annotated closeup photo of PCB showing PEAK3232 IC with arrows to pins 13 (RIN1), 14 (TOUT1), 15 (GND) and their corresponding through-hole pads -->
 <!-- <img src="images/placeholder_pcb_ic_pinout.jpg" alt="Closeup of PEAK3232 IC with pin 13/14/15 annotated" width="600"/> -->
