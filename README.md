@@ -46,7 +46,8 @@ For that, you will need **serial console** access (RS232 via the unpopulated RJ4
 - Two **firmware images** from the [OpenWrt Firmware Selector](https://firmware-selector.openwrt.org) (search `hasivo`):
   - `openwrt-*-initramfs-kernel.bin` — the TFTP boot image (runs in RAM)
   - `openwrt-*-squashfs-sysupgrade.bin` — the permanent flash image
-
+- Any version of `python3` for static file server
+  
 ---
 
 ## Part 1 — Serial Console Hardware
