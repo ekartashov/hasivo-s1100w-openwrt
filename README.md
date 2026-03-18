@@ -7,7 +7,8 @@
 The **Hasivo S1100W-8XGT-SE** is, at the time of writing, one of the **_only cheap_ managed 8-port 10GbE** switches that supports **OpenWrt**.
 
 By replacing its stock closed source firmware, one basically supercharges this switch with little-to-no investments — SSH, VLANs, firewall, LuCI web UI, Ansible-ready, on a well-known, actively maintained OS.
-The RTL9303 SoC has upstream OpenWrt support ([PR #17137](https://github.com/openwrt/openwrt/pull/17137)).
+
+The RTL9303 SoC on which this switch is based, has upstream OpenWrt support ([PR #17137](https://github.com/openwrt/openwrt/pull/17137)).
 
 ## Overview
 
