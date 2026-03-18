@@ -24,7 +24,7 @@ For that, you will need **serial console** access (RS232 via the unpopulated RJ4
 #### Hardware:
 
 > [!WARNING]
-> Do **not** use a plain USB-to-TTL adapter — this board uses a **3PEAK3232 RS-232 transceiver** (RS-232 voltage levels).
+> Do **not** use a plain USB-to-TTL adapter — this board uses a **_3PEAK 3232_ RS-232 transceiver** (RS-232 voltage levels).
 > Your adapter must include a voltage-shifting IC (e.g. MAX202) to avoid damaging your hardware.
 
 - USB-to-RS232 adapter _(CH340T-based works well)_
