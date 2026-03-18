@@ -17,7 +17,7 @@ The install is two-phase:
 1. **TFTP boot** the OpenWrt initramfs image into RAM via U-Boot _(stock firmware is intact)_
 2. **sysupgrade** from within that live system to permanently write OpenWrt to flash
 
-For that, you will need **serial console** access (RS232 via the unpopulated RJ45 pads on the PCB, see [Part 1]()) and a **direct Ethernet link** to the switch.
+For that, you will need **serial console** access (RS232 via the unpopulated RJ45 pads on the PCB, see [Part 1](#part-1--serial-console-hardware)) and a **direct Ethernet link** to the switch.
 
 ## Prerequisites
 
@@ -29,7 +29,7 @@ For that, you will need **serial console** access (RS232 via the unpopulated RJ4
 
 - USB-to-RS232 adapter _(CH340T-based works well)_
   
-- **One of** the following for the console connection (see [Part 1]() for details):
+- **One of** the following for the console connection (see [Part 1](#part-1--serial-console-hardware) for details):
   - _Solder_ through-hole **RJ45 socket**, or 
   - _Solder_ through-hole **Header pins**, or 
   - **Bare wires** inserted into the through-holes + some tape _(for one-off upload)_
