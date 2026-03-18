@@ -1,4 +1,4 @@
-# Flashing OpenWrt on the Hasivo S1100W-8XGT-SE
+# Flashing OpenWrt on Hasivo S1100W-8XGT-SE
 
 > Tested with OpenWrt 25.12.0 (`r32713-f919e7899d`), platform `realtek/rtl930x`
 
