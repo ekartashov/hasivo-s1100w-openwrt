@@ -66,7 +66,7 @@ You have three options for connecting to these pads:
 ### Option A: Solder an RJ45 socket (best)
 
 > [!NOTE]
-> Note that the RJ45 socket **covers the adjacent header pin holes**, so this is mutually exclusive with _Option B_.
+> Note that the RJ45 socket **covers the adjacent header pin holes**, so this won't work with _Option B_.
 
 This is the best option because you add a real console port to the switch.
 
@@ -95,7 +95,7 @@ Score along the port outline from the inside and finish corners from outside wit
 ### Option B: Solder header pins (internal)
 
 > [!NOTE]
-> Note that the headers **obstruct the body of the RJ45 body**, so this is mutually exclusive with _Option A_.
+> Note that the headers **obstruct the body of the RJ45 body**, so this won't work with _Option A_.
 
 There are separate through-holes next to the RJ45 landing pads that can take standard 2.54mm header pins.
 These are more compact if you don't want a full RJ45 jack sticking out and want easy internal access, but as noted above — the RJ45 socket physically covers these holes, so pick one or the other.
