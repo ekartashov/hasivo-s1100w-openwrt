@@ -103,7 +103,8 @@ These are more compact if you don't want a full RJ45 jack sticking out and want 
 
 ### Option C: Bare wires + tape (temporary)
 
-If you just need console access for the initial flash and don't plan to keep a permanent console port, strip three wires from a patch cable, insert them into the correct through-holes, and hold them in place with tape. The worst that can happen is a wire slips out mid-session — just reseat and retry. Good enough for a one-time job.
+If you just need console access for the initial flash and don't plan to keep a permanent console port, strip three wires from a patch cable, insert them into the correct through-holes, and hold them in place with tape.
+The worst that can happen is a wire slips out mid-session — just reseat and retry.
 
 ### 3PEAK 3232 IC pinout
 
@@ -176,7 +177,7 @@ Verify:
 
 ```bash
 ip addr show <wired-interface>
-# Must show: inet 192.168.0.111/24  (not /32)
+# Must show: inet 192.168.0.111/24
 ```
 
 ### 2.2 — Start the TFTP server
@@ -226,7 +227,7 @@ Enter the bootloader password:
 Hs2021cfgmg
 ```
 
-Then type the second gate:
+Then type the second gate _(yes literally XXXX)_:
 ```
 XXXX
 ```
@@ -237,7 +238,7 @@ You should now be at the U-Boot prompt.
 
 Tell U-Boot where OpenWrt lives in flash so future boots work automatically:
 
-```
+```bash
 setenv bootcmd 'rtk network on; bootm 0xb4300000'
 saveenv
 ```
@@ -248,7 +249,15 @@ saveenv
 
 ```
 rtk network on
-tftpboot 0x84f00000 openwrt-25.12.0-realtek-rtl930x-hasivo_s1100w-8xgt-se-initramfs-kernel.bin
+```
+
+> [!WARNING]
+> REPLACE THE INITRAMFS IMAGE WITH ONE YOU HAVE DOWNLOADED
+```
+tftpboot 0x84f00000 openwrt-*-initramfs-kernel.bin
+```
+
+```
 bootm 0x84f00000
 ```
 
